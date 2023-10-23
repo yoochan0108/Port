@@ -1,14 +1,14 @@
 import { useDebounce } from '../../../hooks/useDebounce';
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 
 //해당 컴포넌트에 메모리 누수 콘솔오류가 뜨는 이유 (memory leak);
 //Errs스테이트에 값이 담기는 시점이 useDebounce에 의해서 0.5초 이후인데
 //Members 컴포넌트 접속하자마자 0.5초안에 다른 페이지로 넘어가면
 //아직 state에 값이 담기지 않았는데 unmount된 경우이므로 뜨는 오류
 //컴포넌트 unmount시 값을 Mounted값을 false로 변경해주고 해당 값이 true일때에만 state변경처리
-export default function Members() {
+function Members() {
 	const initVal = {
 		userid: '',
 		pwd1: '',
@@ -126,21 +126,23 @@ export default function Members() {
 		}
 	};
 
-	const showCheck = () => {
-		Mounted && setErrs(check(DebouncedVal));
-	};
-
 	//의존성 배열에 Debouncing이 적용된 state값을 등록해서
 	//함수의 핸들러함수 호출의 빈도를 줄여줌
 	//useDebounce는 state의 변경횟수 자체를 줄이는게 아니라.
 	//해당 state에 따라 호출되는 함수의 빈도를 줄임[]
 	useEffect(() => {
-		console.log('Val state값 변경에 의해서 showCheck함수 호출');
+		const showCheck = () => {
+			console.log('showCheck');
+			Mounted && setErrs(check(DebouncedVal));
+		};
+		//console.log('Val state값 변경에 의해서 showCheck함수 호출');
 		showCheck();
-		console.log(DebouncedVal);
+	}, [DebouncedVal, Mounted]);
 
+	//컴포넌트 언마운트시 한번만 Mounted값을 변경해야 되므로 의존성배열이 비어있는 상태에서 clean-up함수 리턴
+	useEffect(() => {
 		return () => setMounted(false);
-	}, [DebouncedVal]);
+	}, []);
 
 	return (
 		<Layout title={'Members'}>
@@ -331,6 +333,7 @@ export default function Members() {
 	);
 }
 
+export default memo(Members);
 /*
 	react-hook-form을 쓰지 않고 직접 기능을 만들었냐?
 	-- 라이브러리는 언제든지 연결할 수 있는건데, 아직 배우는 입장이기 때문에 부족하나마 어떤 인증로직이 처리되는지 직접 만들어 보고 싶었다.
