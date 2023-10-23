@@ -11,6 +11,6 @@ export function GlobalProvider({ children }) {
 }
 
 export function useGlobalData() {
-	const GlobalContext = useContext(GlobalContext);
-	return GlobalContext;
+	const globalContext = useContext(GlobalContext);
+	return globalContext;
 }
