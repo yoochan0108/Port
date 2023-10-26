@@ -29,6 +29,7 @@ function Members() {
 	//기존의 onchange이벤트가 발생할때마다 변경되는 Val값을 useDebounce를 이용해서
 	//Debouncing이 적용된 또다른 State를 전달 받음
 	const DebouncedVal = useDebounce(Val);
+	console.log(DebouncedVal);
 
 	const resetForm = (e) => {
 		e.preventDefault();
@@ -113,6 +114,7 @@ function Members() {
 		if (value.comments.length < 10) {
 			errs.comments = '남기는말은 10글자 이상 입력하세요.';
 		}
+		console.log(errs);
 		return errs;
 	};
 

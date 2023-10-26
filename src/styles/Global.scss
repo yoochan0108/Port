@@ -13,7 +13,23 @@ a {
 	color: inherit;
 }
 body {
-	background: #efefef;
+	width: 100%;
+	overflow-x: hidden;
+	background: linear-gradient(-45deg, rgb(175, 4, 175), white, rgb(254, 205, 254));
+
+	main {
+		width: 100%;
+		background: var(--bg);
+		color: var(--color);
+	}
+	main.light {
+		background: var(--bg);
+		color: var(--color);
+	}
+	main.dark {
+		background: var(--darkBg);
+		color: var(--darkColor);
+	}
 }
 html {
 	&::-webkit-scrollbar {

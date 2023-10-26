@@ -78,6 +78,12 @@
 
 			.btnSet {
 				input {
+					width: 100px;
+					height: 30px;
+					margin: 20px;
+					border: none;
+					background-color: #494747;
+					color: #fff;
 				}
 			}
 		}
@@ -103,6 +109,14 @@
 			&.on {
 				opacity: 1;
 				z-index: 2;
+			}
+			.btns {
+				width: 100px;
+				height: 30px;
+				margin: 20px;
+				border: none;
+				background-color: #494747;
+				color: #fff;
 			}
 		}
 	}

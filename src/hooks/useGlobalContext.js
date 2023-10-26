@@ -1,12 +1,25 @@
-import { creatrContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
-export const GlobalContext = creatrContext();
+export const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
 	const [MenuOpen, setMenuOpen] = useState(false);
+	const [ModalOpen, setModalOpen] = useState(false);
+	const [Theme, setTheme] = useState(true);
 
 	return (
-		<GlobalContext.Provider value={(MenuOpen, setMenuOpen)}>{children}</GlobalContext.Provider>
+		<GlobalContext.Provider
+			value={{
+				MenuOpen,
+				setMenuOpen,
+				ModalOpen,
+				setModalOpen,
+				Theme,
+				setTheme,
+			}}
+		>
+			{children}
+		</GlobalContext.Provider>
 	);
 }
 

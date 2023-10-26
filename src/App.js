@@ -1,5 +1,4 @@
 import './styles/Global.scss';
-
 import { Route, Switch } from 'react-router-dom';
 import Header from './components/common/header/Header';
 import Department from './components/sub/department/Department';
@@ -11,25 +10,19 @@ import Detail from './components/sub/youtube/Detail';
 import Community from './components/sub/community/Community';
 import Main from './components/main/mainWrap/Main';
 import { useMedia } from './hooks/useMedia';
-import { useEffect } from 'react';
-import { fetchFlickr } from './redux/flickrSlice';
-import { useDispatch } from 'react-redux';
 import Menu from './components/common/menu/Menu';
 import Footer from './components/common/footer/Footer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useGlobalData } from './hooks/useGlobalContext';
+import './styles/index.css';
 
 function App() {
-	const dispatch = useDispatch();
 	const queryClient = new QueryClient();
-
-	useEffect(() => {
-		dispatch(fetchFlickr({ type: 'user', id: '199272370@N07' }));
-	}, []);
-
+	const { Theme } = useGlobalData();
 	return (
 		<QueryClientProvider client={queryClient}>
-			<main className={useMedia()}>
+			<main className={`${useMedia()} ${Theme ? 'dark' : 'light'}`}>
 				<Switch>
 					<Route exact path='/'>
 						<Header isMain={true} />
@@ -53,5 +46,4 @@ function App() {
 		</QueryClientProvider>
 	);
 }
-
 export default App;
